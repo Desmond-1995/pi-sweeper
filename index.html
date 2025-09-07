@@ -1,1 +1,66 @@
-testcommit
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Minesweeper Basisstructuur</title>
+  <script src="https://cdn.jsdelivr.net/npm/phaser@3/dist/phaser.js"></script>
+  <style>
+    body {
+      margin: 0;
+      background: #222;
+    }
+    canvas {
+      display: block;
+      margin: auto;
+    }
+  </style>
+</head>
+<body>
+<script>
+  const config = {
+    type: Phaser.AUTO,
+    width: 600,
+    height: 600,
+    backgroundColor: '#444',
+    scene: { preload, create }
+  };
+
+  const game = new Phaser.Game(config);
+
+  const gridSize = 10;   // 10x10
+  const cellSize = 50;   // pixels per cell
+  let cells = [];
+
+  function preload() {}
+
+  function create() {
+    for (let row = 0; row < gridSize; row++) {
+      cells[row] = [];
+      for (let col = 0; col < gridSize; col++) {
+        let x = col * cellSize + cellSize / 2;
+        let y = row * cellSize + cellSize / 2;
+
+        // Maak een simpele rechthoek als cel
+        let cell = this.add.rectangle(x, y, cellSize - 2, cellSize - 2, 0x888888);
+        cell.setStrokeStyle(2, 0x000000);
+        cell.row = row;
+        cell.col = col;
+        cell.opened = false;
+
+        // Voeg interactie toe
+        cell.setInteractive();
+        cell.on('pointerdown', () => openCell(cell));
+
+        cells[row][col] = cell;
+      }
+    }
+  }
+
+  function openCell(cell) {
+    if (cell.opened) return;
+    cell.opened = true;
+    cell.setFillStyle(0xffffff); // Wit als "geopend"
+  }
+</script>
+</body>
+</html>
