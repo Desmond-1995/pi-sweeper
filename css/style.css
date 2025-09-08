@@ -1,0 +1,364 @@
+/* ===== Minesweeper x Phaser – UI Styles ===== */
+
+/* 1) Design tokens */
+:root {
+  --bg: #0f1115;
+  --bg-elev: #151924;
+  --panel: #1b2030;
+  --border: #262b3b;
+  --text: #e8eef8;
+  --muted: #9aa7bd;
+  --accent: #4cc9f0;
+  --accent-2: #a1f0c4;
+  --danger: #ff6b6b;
+  --warn: #ffd166;
+  --success: #37d67a;
+
+  --cell-1: #73b7ff;
+  --cell-2: #77dd77;
+  --cell-3: #ffadad;
+  --cell-4: #cfa6ff;
+  --cell-5: #ffdd57;
+  --cell-6: #8deaff;
+  --cell-7: #f7a6ff;
+  --cell-8: #cfd8e3;
+
+  --shadow: 0 10px 30px rgba(0,0,0,0.35);
+  --radius: 14px;
+  --radius-sm: 10px;
+  --radius-lg: 22px;
+
+  --font-ui: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+
+  --focus: 0 0 0 3px rgba(76, 201, 240, 0.55);
+}
+
+/* Optional licht thema via data-attribute op <html> of body */
+:root[data-theme="light"] {
+  --bg: #f7f9fc;
+  --bg-elev: #ffffff;
+  --panel: #ffffff;
+  --border: #e6eaf2;
+  --text: #111827;
+  --muted: #6b7280;
+  --shadow: 0 10px 25px rgba(16, 24, 40, 0.08);
+}
+
+/* 2) Global reset & base */
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html, body {
+  height: 100%;
+  background: radial-gradient(1200px 800px at 20% -10%, #1a2030 0%, var(--bg) 55%) no-repeat fixed;
+  color: var(--text);
+  font-family: var(--font-ui);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+::selection { background: rgba(76,201,240,.25); }
+
+/* 3) App shell */
+.app {
+  min-height: 100%;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+}
+
+.app-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 18px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0)) , var(--bg);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.brand {
+  display: flex; align-items: center; gap: 10px;
+  font-weight: 700; letter-spacing: .3px;
+}
+.brand .logo {
+  width: 28px; height: 28px; border-radius: 8px;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  box-shadow: var(--shadow);
+}
+
+.spacer { flex: 1; }
+
+/* 4) Game area */
+.game-wrap {
+  display: grid;
+  grid-template-columns: 1fr minmax(auto, 1024px) 1fr;
+}
+.game {
+  grid-column: 2;
+  padding: 18px;
+  display: grid;
+  gap: 12px;
+}
+
+/* Phaser mounts here */
+#game-root,
+.phaser-parent {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16/10;          /* aanpasbaar; of verwijder en zet vaste hoogte */
+  background: linear-gradient(180deg, #0e1220, #0b0f1a);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+
+/* High-DPI canvas crispness + fill container */
+.phaser-parent canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+  image-rendering: pixelated;  /* minesweeper-vibe */
+}
+
+/* 5) HUD / Toolbar */
+.hud {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.hud .left, .hud .center, .hud .right { display: flex; align-items: center; gap: 10px; }
+.hud .center { justify-content: center; }
+.hud .right { justify-content: flex-end; }
+
+.counter, .timer {
+  font-family: var(--font-mono);
+  background: #0b0f1a;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 8px 10px;
+  min-width: 64px;
+  text-align: center;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
+}
+
+/* 6) Buttons */
+.btn {
+  appearance: none;
+  border: 1px solid var(--border);
+  background: linear-gradient(180deg, #1e2433, #171c29);
+  color: var(--text);
+  padding: 9px 14px;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform .06s ease, box-shadow .2s ease, background .2s ease;
+  box-shadow: 0 1px 0 rgba(255,255,255,0.05), var(--shadow);
+  user-select: none;
+}
+.btn:hover { transform: translateY(-1px); }
+.btn:active { transform: translateY(0); }
+.btn:focus-visible { outline: none; box-shadow: var(--focus); }
+.btn[disabled], .btn:disabled { opacity: .5; cursor: not-allowed; }
+
+.btn-primary {
+  background: linear-gradient(180deg, var(--accent), #2aa7ce);
+  color: #061018;
+  border-color: rgba(0,0,0,.1);
+}
+.btn-ghost {
+  background: transparent;
+  border-color: var(--border);
+}
+.btn-danger {
+  background: linear-gradient(180deg, #ff8a8a, #ff6b6b);
+  color: #2b0a0a;
+  border-color: rgba(0,0,0,.1);
+}
+
+/* 7) Selects / inputs */
+.select, .input {
+  border: 1px solid var(--border);
+  background: #0b0f1a;
+  color: var(--text);
+  padding: 9px 12px;
+  border-radius: var(--radius-sm);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
+}
+.select:focus-visible, .input:focus-visible { outline: none; box-shadow: var(--focus); }
+
+/* 8) Panels (e.g., difficulty, scoreboard) */
+.panel {
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px;
+  box-shadow: var(--shadow);
+}
+.panel h3 { margin: 0 0 8px; font-size: 1rem; opacity: .9; }
+.kv {
+  display: grid; grid-template-columns: 1fr auto; gap: 8px; align-items: center;
+  font-family: var(--font-mono);
+}
+
+/* 9) Toasts */
+.toast {
+  position: fixed;
+  bottom: 18px; left: 50%;
+  transform: translateX(-50%);
+  background: var(--panel);
+  border: 1px solid var(--border);
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow);
+  z-index: 100;
+  opacity: 0; pointer-events: none;
+  transition: opacity .2s ease, transform .2s ease;
+}
+.toast.show { opacity: 1; pointer-events: auto; transform: translateX(-50%) translateY(-4px); }
+
+/* 10) Modal */
+.modal-backdrop {
+  position: fixed; inset: 0;
+  background: rgba(6,10,16,0.6);
+  backdrop-filter: blur(4px);
+  display: none;
+  z-index: 120;
+}
+.modal-backdrop.open { display: block; }
+
+.modal {
+  position: fixed; inset: 0;
+  display: grid; place-items: center;
+  z-index: 130;
+  padding: 24px;
+}
+.modal .dialog {
+  width: min(560px, 92vw);
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+  padding: 18px;
+}
+.modal .dialog header {
+  display: flex; align-items: center; gap: 10px; justify-content: space-between;
+  margin-bottom: 8px; font-weight: 700;
+}
+.modal .dialog .actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 12px; }
+
+/* 11) Tooltip (for right-click/context hints) */
+.tooltip {
+  position: absolute; z-index: 200;
+  background: #0b0f1a; color: var(--text);
+  border: 1px solid var(--border);
+  padding: 6px 8px; font-size: .875rem;
+  border-radius: 8px; box-shadow: var(--shadow);
+  transform-origin: top center;
+  opacity: 0; pointer-events: none; transform: scale(0.96);
+  transition: opacity .12s ease, transform .12s ease;
+}
+.tooltip.show { opacity: 1; transform: scale(1); }
+
+/* 12) Context menu (custom right-click) */
+.context-menu {
+  position: absolute; z-index: 210;
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+  padding: 6px;
+  min-width: 160px;
+  display: none;
+}
+.context-menu.open { display: block; }
+.context-menu button {
+  display: flex; width: 100%; text-align: left;
+  background: transparent; border: 0; color: var(--text);
+  padding: 8px 10px; border-radius: 8px; cursor: pointer;
+}
+.context-menu button:hover { background: rgba(255,255,255,0.06); }
+
+/* 13) Progress bar (loading scene) */
+.progress {
+  height: 8px; width: 100%;
+  background: #0b0f1a; border: 1px solid var(--border);
+  border-radius: 999px; overflow: hidden;
+}
+.progress .bar {
+  height: 100%; width: 0%;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  transition: width .25s ease;
+}
+
+/* 14) Status chips */
+.chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 4px 8px; border-radius: 999px;
+  border: 1px solid var(--border);
+  background: #0b0f1a; font-size: .85rem;
+}
+.chip.win { border-color: rgba(55,214,122,.35); color: var(--success); }
+.chip.lose { border-color: rgba(255,107,107,.35); color: var(--danger); }
+
+/* 15) Accessibility & motion */
+:focus-visible { outline: none; box-shadow: var(--focus); }
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; }
+}
+
+/* 16) Responsive tweaks */
+@media (max-width: 900px) {
+  .hud { grid-template-columns: 1fr; }
+  .hud .center, .hud .right { justify-content: space-between; }
+  #game-root, .phaser-parent { aspect-ratio: 3/4; } /* portraitish */
+}
+
+/* 17) Utility classes for numbers (if je canvas-tekst nabootst in DOM) */
+.num { font-family: var(--font-mono); font-weight: 800; }
+.num.n1 { color: var(--cell-1); }
+.num.n2 { color: var(--cell-2); }
+.num.n3 { color: var(--cell-3); }
+.num.n4 { color: var(--cell-4); }
+.num.n5 { color: var(--cell-5); }
+.num.n6 { color: var(--cell-6); }
+.num.n7 { color: var(--cell-7); }
+.num.n8 { color: var(--cell-8); }
+
+/* 18) Custom cursor hints (toggle via body class in Phaser events) */
+body.cursor-flag { cursor: url('data:image/svg+xml;utf8,\
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24">\
+<path fill="%23ff6b6b" d="M7 4v16M8 5h10l-3.5 3 3.5 3H8z"/></svg>') 0 0, pointer; }
+body.cursor-dig { cursor: crosshair; }
+
+/* 19) Minimal footer */
+.app-footer {
+  padding: 14px 18px;
+  color: var(--muted);
+  font-size: .9rem;
+  text-align: center;
+  border-top: 1px solid var(--border);
+  background: linear-gradient(0deg, rgba(255,255,255,0.02), rgba(0,0,0,0)), var(--bg);
+}
+
+/* 20) Helper: hidden but accessible */
+.visually-hidden {
+  position: absolute !important;
+  height: 1px; width: 1px;
+  overflow: hidden; clip: rect(1px, 1px, 1px, 1px);
+  white-space: nowrap; clip-path: inset(50%);
+}
