@@ -1,68 +1,50 @@
-testcommit
 <!DOCTYPE html>
-<html lang="en">
+<html lang="nl">
 <head>
   <meta charset="UTF-8">
-  <title>Minesweeper Basisstructuur</title>
-  <script src="https://cdn.jsdelivr.net/npm/phaser@3/dist/phaser.js"></script>
-  <style>
-    body {
-      margin: 0;
-      background: #222;
-    }
-    canvas {
-      display: block;
-      margin: auto;
-    }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+  <title>Minesweeper met Phaser</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<script>
-  const config = {
-    type: Phaser.AUTO,
-    width: 600,
-    height: 600,
-    backgroundColor: '#444',
-    scene: { preload, create }
-  };
+  <div class="app">
+    <header class="app-header">
+      <div class="brand">
+        <div class="logo"></div>
+        <span>Minesweeper</span>
+      </div>
+      <div class="spacer"></div>
+      <button class="btn btn-ghost" id="themeToggle">🌙</button>
+    </header>
 
-  
-  const game = new Phaser.Game(config);
+    <main class="game-wrap">
+      <section class="game">
+        <!-- HUD -->
+        <div class="hud">
+          <div class="left">
+            <div class="counter" id="flags">🚩 010</div>
+            <div class="counter" id="mines">💣 010</div>
+          </div>
+          <div class="center">
+            <button class="btn btn-primary" id="restart">Opnieuw</button>
+          </div>
+          <div class="right">
+            <button class="btn btn-ghost" id="flagModeToggle">🚩 Vlagmodus</button>
+            <div class="timer" id="timer">00:00</div>
+          </div>
+        </div>
 
-  const gridSize = 10;   // 10x10
-  const cellSize = 50;   // pixels per cell
-  let cells = [];
+        <!-- Phaser game mount point -->
+        <div id="game-root" class="phaser-parent"></div>
+      </section>
+    </main>
 
-  function preload() {}
+    <footer class="app-footer">Gemaakt met Phaser</footer>
+  </div>
 
-  function create() {
-    for (let row = 0; row < gridSize; row++) {
-      cells[row] = [];
-      for (let col = 0; col < gridSize; col++) {
-        let x = col * cellSize + cellSize / 2;
-        let y = row * cellSize + cellSize / 2;
-
-        // Maak een simpele rechthoek als cel
-        let cell = this.add.rectangle(x, y, cellSize - 2, cellSize - 2, 0x888888);
-        cell.setStrokeStyle(2, 0x000000);
-        cell.row = row;
-        cell.col = col;
-        cell.opened = false;
-
-        // Voeg interactie toe
-        cell.setInteractive();
-        cell.on('pointerdown', () => openCell(cell));
-
-        cells[row][col] = cell;
-      }
-    }
-  }
-
-  function openCell(cell) {
-    if (cell.opened) return;
-    cell.opened = true;
-    cell.setFillStyle(0xffffff); // Wit als "geopend"
-  }
-</script>
+  <!-- Phaser (via CDN of lokaal bestand) -->
+  <script src="https://cdn.jsdelivr.net/npm/phaser@3.70.0/dist/phaser.js"></script>
+  <!-- Je eigen game code -->
+  <script src="game.js"></script>
 </body>
 </html>
