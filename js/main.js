@@ -19,7 +19,7 @@ class PreloadScene extends Phaser.Scene {
     // Simple placeholder sprites
     this.load.image("cell", "https://labs.phaser.io/assets/sprites/blank.png");
     this.load.image("flag", "https://labs.phaser.io/assets/sprites/longarrow.png");
-    this.load.image("mine", "https://labs.phaser.io/assets/sprites/asteroid.png");
+    this.load.image("mine", "./assets/images/minesweep_bomb");
   }
 
   create() {
@@ -129,6 +129,9 @@ class MainScene extends Phaser.Scene {
         cell.sprite = sprite;
 
         sprite.on("pointerdown", () => {
+          console.log('isGameOver: ' + this.isGameOver);
+          console.log('flagMode: ' + flagMode);
+          
           if (this.isGameOver) return;
           if (flagMode) {
             this.toggleFlag(cell);
@@ -164,6 +167,8 @@ class MainScene extends Phaser.Scene {
   }
 
   revealCell(cell) {
+    console.log('cell.isRevealed: ' + cell.isRevealed);
+    console.log('cell.isFlagged: ' + cell.isFlagged);
     if (cell.isRevealed || cell.isFlagged) return;
 
     // Start timer bij eerste klik
@@ -188,6 +193,8 @@ class MainScene extends Phaser.Scene {
         color: this.getNumberColor(cell.number),
       }).setOrigin(0.5);
     } else {
+      this.add.image(cell.sprite.x, cell.sprite.y, "mine")
+        .setDisplaySize(this.cellSize * 0.7, this.cellSize * 0.7);
       this.revealNeighbors(cell);
     }
 
