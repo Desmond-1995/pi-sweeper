@@ -34,17 +34,6 @@
   --focus: 0 0 0 3px rgba(76, 201, 240, 0.55);
 }
 
-/* Optional licht thema via data-attribute op <html> of body */
-:root[data-theme="light"] {
-  --bg: #f7f9fc;
-  --bg-elev: #ffffff;
-  --panel: #ffffff;
-  --border: #e6eaf2;
-  --text: #111827;
-  --muted: #6b7280;
-  --shadow: 0 10px 25px rgba(16, 24, 40, 0.08);
-}
-
 /* 2) Global reset & base */
 *,
 *::before,
