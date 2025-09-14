@@ -19,7 +19,7 @@ class PreloadScene extends Phaser.Scene {
     // Simple placeholder sprites
     this.load.image("cell", "./assets/images/unopened.png ");
     this.load.image("flag", "https://labs.phaser.io/assets/sprites/longarrow.png");
-    this.load.image("mine", "./assets/images/minesweep_bomb.png");
+    this.load.image("mine", "./assets/images/PiBomb.jpg");
   }
 
   create() {
